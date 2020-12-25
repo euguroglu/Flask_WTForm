@@ -1,3 +1,4 @@
+{%from "_renderfield.html" import renderfield %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -14,12 +15,7 @@
           <li style="color:red;">{{error}}</li>
         {%endfor%}
       </ul>
-      {{form.username.label}}{{form.username}}
-      <ul>
-        {%for error in form.username.errors%}
-          <li style="color:red;">{{error}}</li>
-        {%endfor%}
-      </ul>
+      {{renderfield(form.username)}}
       {{form.password.label}}{{form.password}}
       <ul>
         {%for error in form.password.errors%}
