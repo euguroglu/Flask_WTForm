@@ -13,6 +13,9 @@ class LoginForm(FlaskForm):
 def index():
     form = LoginForm()
 
+    if form.validate_on_submit():
+        return '<h1>Username: {} Password: {}</h1>'.format(form.username.data,form.password.data)
+
     return render_template('index.html',form=form)
 
 if __name__ == "__main__":
