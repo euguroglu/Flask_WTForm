@@ -13,9 +13,18 @@ class LoginForm(FlaskForm):
     true = BooleanField('true')
     email = StringField('email',validators=[Email()])
 
+#Prepopulation example
+class User():
+    def __init__(self,username,age,email):
+        self.username = username
+        self.age = age
+        self.email = email
+
 @app.route('/',methods=['GET','POST'])
 def index():
-    form = LoginForm()
+    myuser = User('Enes',28,'euguroglu@trial.com')
+
+    form = LoginForm(obj=myuser)
 
     if form.validate_on_submit():
         return '<h1>Username: {} Password: {} Age: {} True: {}</h1>'.format(form.username.data,form.password.data,form.age.data,form.true.data)
