@@ -21,6 +21,10 @@ class LoginForm(FlaskForm):
     true = BooleanField('true')
     email = StringField('email',validators=[Email()])
 
+class NameForm(LoginForm):
+    firstname = StringField('firstname')
+    lastname = StringField('lastname')
+
 #Prepopulation example
 class User():
     def __init__(self,username,age,email):
@@ -32,7 +36,7 @@ class User():
 def index():
     myuser = User('Enes',28,'euguroglu@trial.com')
 #one way to disable crsf token
-    form = LoginForm(obj=myuser,crsf_enabled=False)
+    form = NameForm(obj=myuser,crsf_enabled=False)
 
     if form.validate_on_submit():
         return '<h1>Username: {} Password: {} Age: {} True: {}</h1>'.format(form.username.data,form.password.data,form.age.data,form.true.data)

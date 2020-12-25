@@ -35,6 +35,9 @@
           <li style="color:red;">{{error}}</li>
         {%endfor%}
       </ul>
+
+      {{renderfield(form.firstname)}}
+      {{renderfield(form.lastname)}}
       <input type="submit" value="Submit">
     </form>
   </body>
