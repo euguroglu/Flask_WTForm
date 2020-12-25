@@ -1,7 +1,8 @@
 from flask import render_template, Flask
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, IntegerField, Form,FormField
+from wtforms import StringField,FieldList, PasswordField, BooleanField, IntegerField, Form,FormField
 from wtforms.validators import InputRequired, Length, AnyOf, Email
+from collections import namedtuple
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Mysecret"
@@ -17,6 +18,10 @@ class TelephoneForm(Form):
     country_code = IntegerField('country_code')
     area_code = IntegerField('area_code')
     number = StringField('number')
+#Field list example
+class YearForm(Form):
+    year = IntegerField('year')
+    total = IntegerField('total')
 
 class LoginForm(FlaskForm):
     username = StringField('Your Username',validators=[InputRequired(),Length(min=4,max=8,message='Must be between 4 and 8 characters')])
@@ -24,8 +29,11 @@ class LoginForm(FlaskForm):
     age = IntegerField('age',default=24)
     true = BooleanField('true')
     email = StringField('email',validators=[Email()])
+    #Field enclosures example
     home_phone = FormField(TelephoneForm)
     mobile_phone = FormField(TelephoneForm)
+    #Field list example
+    years = FieldList(FormField(YearForm))
 
 class NameForm(LoginForm):
     firstname = StringField('firstname')
@@ -42,8 +50,17 @@ class User():
 @app.route('/',methods=['GET','POST'])
 def index():
     myuser = User('Enes',28,'euguroglu@trial.com')
+
+    group = namedtuple('Group',['year','total'])
+    g1 = group(2005,1000)
+    g2 = group(2006,1500)
+    g3 = group(2007,1700)
+
+    years = {'years':[g1,g2,g3]}
 #one way to disable crsf token
-    form = NameForm(obj=myuser,crsf_enabled=False)
+    form = NameForm(obj=myuser,crsf_enabled=False,data=years)
+
+    del form.mobile_phone
 
     if form.validate_on_submit():
         return '<h1>Username: {} Password: {} Age: {} True: {}</h1>'.format(form.username.data,form.password.data,form.age.data,form.true.data)
