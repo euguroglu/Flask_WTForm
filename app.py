@@ -67,5 +67,21 @@ def index():
 
     return render_template('index.html',form=form)
 
+@app.route('/dynamic',methods=['GET','POST'])
+def dynamic():
+    class DynamicForm(FlaskForm):
+        pass
+
+    DynamicForm.name = StringField('name')
+    names = ['middle_name','last_name','nickname']
+    for name in names:
+        setattr(DynamicForm,name,StringField(name))
+    form = DynamicForm()
+
+    if form.validate_on_submit():
+        return 'Form has been validated. Name: {}'.format(form.name.data)
+
+    return render_template('dynamic.html',form=form,names=names)
+
 if __name__ == "__main__":
     app.run(debug=True)
