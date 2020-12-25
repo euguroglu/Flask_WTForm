@@ -1,7 +1,7 @@
 from flask import render_template, Flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, IntegerField
-from wtforms.validators import InputRequired, Length, AnyOf
+from wtforms.validators import InputRequired, Length, AnyOf, Email
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Mysecret"
@@ -11,6 +11,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('password',validators=[InputRequired(),AnyOf(values=['secret','password'])])
     age = IntegerField('age')
     true = BooleanField('true')
+    email = StringField('email',validators=[Email()])
 
 @app.route('/',methods=['GET','POST'])
 def index():
