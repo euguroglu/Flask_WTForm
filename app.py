@@ -8,7 +8,7 @@ app.config['SECRET_KEY'] = "Mysecret"
 
 class LoginForm(FlaskForm):
     username = StringField('username',validators=[InputRequired(),Length(min=4,max=8,message='Must be between 4 and 8 characters')])
-    password = PasswordField('password',validators=[InputRequired()])
+    password = PasswordField('password',validators=[InputRequired(),AnyOf(values=['secret','password'])])
 
 @app.route('/',methods=['GET','POST'])
 def index():

@@ -16,6 +16,11 @@
         {%endfor%}
       </ul>
       {{form.password.label}}{{form.password}}
+      <ul>
+        {%for error in form.password.errors%}
+          <li style="color:red;">{{error}}</li>
+        {%endfor%}
+      </ul>
       <input type="submit" value="Submit">
     </form>
   </body>
