@@ -21,6 +21,12 @@
           <li style="color:red;">{{error}}</li>
         {%endfor%}
       </ul>
+      {{form.age.label}}{{form.age}}
+      <ul>
+        {%for error in form.age.errors%}
+          <li style="color:red;">{{error}}</li>
+        {%endfor%}
+      {{form.true.label}}{{form.true}}
       <input type="submit" value="Submit">
     </form>
   </body>
