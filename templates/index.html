@@ -9,6 +9,11 @@
     <form action="/" method="POST">
       <!-- to make sure form is coming from application  -->
       {{form.csrf_token}}
+      <ul>
+        {%for error in form.csrf_token.errors%}
+          <li style="color:red;">{{error}}</li>
+        {%endfor%}
+      </ul>
       {{form.username.label}}{{form.username}}
       <ul>
         {%for error in form.username.errors%}

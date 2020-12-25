@@ -5,6 +5,14 @@ from wtforms.validators import InputRequired, Length, AnyOf, Email
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "Mysecret"
+#second way to disable crsf csrf_token(by false)
+app.config['WTF_CRSF_ENABLED'] = True
+#adding different secret key to crsf_enabled
+app.config['WTF_CSRF_SECRET_KEY'] = 'mysecretkey'
+#time limit for filling form(10 SECOND FOR EXAMPLE)
+app.config['WTF_CSRF_TIME_LIMIT'] = 10
+
+
 
 class LoginForm(FlaskForm):
     username = StringField('Your Username',validators=[InputRequired(),Length(min=4,max=8,message='Must be between 4 and 8 characters')])
@@ -23,8 +31,8 @@ class User():
 @app.route('/',methods=['GET','POST'])
 def index():
     myuser = User('Enes',28,'euguroglu@trial.com')
-
-    form = LoginForm(obj=myuser)
+#one way to disable crsf token
+    form = LoginForm(obj=myuser,crsf_enabled=False)
 
     if form.validate_on_submit():
         return '<h1>Username: {} Password: {} Age: {} True: {}</h1>'.format(form.username.data,form.password.data,form.age.data,form.true.data)
