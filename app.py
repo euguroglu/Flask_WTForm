@@ -7,9 +7,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "Mysecret"
 
 class LoginForm(FlaskForm):
-    username = StringField('username',validators=[InputRequired(),Length(min=4,max=8,message='Must be between 4 and 8 characters')])
+    username = StringField('Your Username',validators=[InputRequired(),Length(min=4,max=8,message='Must be between 4 and 8 characters')])
     password = PasswordField('password',validators=[InputRequired(),AnyOf(values=['secret','password'])])
-    age = IntegerField('age')
+    age = IntegerField('age',default=24)
     true = BooleanField('true')
     email = StringField('email',validators=[Email()])
 
