@@ -1,6 +1,6 @@
 from flask import render_template, Flask
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, Form,FormField
 from wtforms.validators import InputRequired, Length, AnyOf, Email
 
 app = Flask(__name__)
@@ -12,7 +12,11 @@ app.config['WTF_CSRF_SECRET_KEY'] = 'mysecretkey'
 #time limit for filling form(10 SECOND FOR EXAMPLE)
 app.config['WTF_CSRF_TIME_LIMIT'] = 10
 
-
+#Field enclosures example
+class TelephoneForm(Form):
+    country_code = IntegerField('country_code')
+    area_code = IntegerField('area_code')
+    number = StringField('number')
 
 class LoginForm(FlaskForm):
     username = StringField('Your Username',validators=[InputRequired(),Length(min=4,max=8,message='Must be between 4 and 8 characters')])
@@ -20,6 +24,8 @@ class LoginForm(FlaskForm):
     age = IntegerField('age',default=24)
     true = BooleanField('true')
     email = StringField('email',validators=[Email()])
+    home_phone = FormField(TelephoneForm)
+    mobile_phone = FormField(TelephoneForm)
 
 class NameForm(LoginForm):
     firstname = StringField('firstname')
@@ -31,6 +37,7 @@ class User():
         self.username = username
         self.age = age
         self.email = email
+
 
 @app.route('/',methods=['GET','POST'])
 def index():
