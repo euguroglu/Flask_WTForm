@@ -45,6 +45,13 @@
       {%for field in form.years%}
         {{renderfield(field)}}
       {%endfor%}
+      {{form.recaptcha}}
+      {%for error in form.recaptcha.errors%}
+      <ul>
+        <li style="color:red;">{{error}}</li>
+
+      {%endfor%}
+      </ul>
       <input type="submit" value="Submit">
     </form>
   </body>

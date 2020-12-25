@@ -1,5 +1,5 @@
 from flask import render_template, Flask
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField,FieldList, PasswordField, BooleanField, IntegerField, Form,FormField
 from wtforms.validators import InputRequired, Length, AnyOf, Email
 from collections import namedtuple
@@ -11,7 +11,10 @@ app.config['WTF_CRSF_ENABLED'] = True
 #adding different secret key to crsf_enabled
 app.config['WTF_CSRF_SECRET_KEY'] = 'mysecretkey'
 #time limit for filling form(10 SECOND FOR EXAMPLE)
-app.config['WTF_CSRF_TIME_LIMIT'] = 10
+app.config['WTF_CSRF_TIME_LIMIT'] = 3600
+#Recaptcha
+app.config['RECAPTCHA_PUBLIC_KEY'] = ''
+app.config['RECAPTCHA_PRIVATE_KEY'] =  ''
 
 #Field enclosures example
 class TelephoneForm(Form):
@@ -34,6 +37,7 @@ class LoginForm(FlaskForm):
     mobile_phone = FormField(TelephoneForm)
     #Field list example
     years = FieldList(FormField(YearForm))
+    recaptcha = RecaptchaField()
 
 class NameForm(LoginForm):
     firstname = StringField('firstname')
